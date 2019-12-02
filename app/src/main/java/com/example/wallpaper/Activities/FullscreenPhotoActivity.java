@@ -26,6 +26,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.wallpaper.Models.Photo;
 import com.example.wallpaper.R;
 import com.example.wallpaper.Utils.Functions;
+import com.example.wallpaper.Utils.RealmController;
 import com.example.wallpaper.WebServices.ApiInterface;
 import com.example.wallpaper.WebServices.ServiceGenerator;
 import com.github.clans.fab.FloatingActionButton;
@@ -50,7 +51,7 @@ public class FullscreenPhotoActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
     private Bitmap photoBitmap;
-//    private RealmController realmController;
+    private RealmController realmController;
     private Photo photo = new Photo();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +64,10 @@ public class FullscreenPhotoActivity extends AppCompatActivity {
         String photoId = intent.getStringExtra("photoId");
         getPhoto(photoId);
 
-//        realmController = new RealmController();
-//        if(realmController.isPhotoExist(photoId)){
-//            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorited));
-//        }
+        realmController = new RealmController();
+        if(realmController.isPhotoExist(photoId)){
+            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorited));
+        }
 
     }
 
@@ -127,19 +128,19 @@ public class FullscreenPhotoActivity extends AppCompatActivity {
         }
         fabMenu.close(true);
     }
-//    @OnClick(R.id.activity_fullscreen_photo_fab_favorite)
-//    public void setFabFavorite(){
-//        if(realmController.isPhotoExist(photo.getId())){
-//            realmController.deletePhoto(photo);
-//            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorite));
-//            Toast.makeText(this, "Remove Favorite", Toast.LENGTH_SHORT).show();
-//        }else{
-//            realmController.savePhoto(photo);
-//            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorited));
-//            Toast.makeText(this, "Favorited", Toast.LENGTH_SHORT).show();
-//        }
-//        fabMenu.close(true);
-//    }
+    @OnClick(R.id.activity_fullscreen_photo_fab_favorite)
+    public void setFabFavorite(){
+        if(realmController.isPhotoExist(photo.getId())){
+            realmController.deletePhoto(photo);
+            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorite));
+            Toast.makeText(this, "Remove Favorite", Toast.LENGTH_SHORT).show();
+        }else{
+            realmController.savePhoto(photo);
+            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_favorited));
+            Toast.makeText(this, "Favorited", Toast.LENGTH_SHORT).show();
+        }
+        fabMenu.close(true);
+    }
 
     @Override
     protected void onDestroy() {

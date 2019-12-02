@@ -52,3 +52,4 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
 
 }
+apply plugin: 'realm-android'
